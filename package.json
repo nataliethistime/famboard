@@ -1,0 +1,22 @@
+{
+  "name": "famboard",
+  "version": "1.0.0",
+  "description": "Basically a calendar but platform-agnostic, web-based and self hosted",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1vasari/famboard.git"
+  },
+  "author": "Nathan McCallum <nathan@1vas.me>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
