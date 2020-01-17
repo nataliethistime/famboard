@@ -18,6 +18,7 @@ const config = {
 
 const defaults = {
   name: config.isProduction() ? 'Untitled' : 'Developer Board',
+  username: 'famboard',
   password: '1234qwer',
 };
 

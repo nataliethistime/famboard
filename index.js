@@ -3,10 +3,19 @@
 const express = require('express');
 const config = require('./config');
 const mongoose = require('mongoose');
+const basicAuth = require('express-basic-auth');
 
 const app = express();
 const port = process.env.PORT || 3000;
 const db = process.env.MONGO_URI || 'mongodb://localhost:27017/famboard';
+
+app.use(basicAuth({
+  challenge: true,
+  realm: 'Application',
+  users: {
+    [config.get('username')]: config.get('password'),
+  },
+}));
 
 app.get('/', (req, res) => res.send('Hello, World!'));
 
