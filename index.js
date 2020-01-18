@@ -73,6 +73,41 @@ app.post('/event/new', async (req, res) => {
   res.redirect('/' + (referer ? '?week=' + referer : ''));
 });
 
+app.get('/event/edit/:id', async (req, res) => {
+  const Event = mongoose.model('Event');
+  const event = await Event.findById(req.params.id).lean();
+
+  if (!event) {
+    return res.render('404');
+  }
+
+  res.render('edit-event', {
+    _id: event._id,
+    title: event.title,
+    description: event.description,
+    date: moment(event.date).format('YYYY-MM-DD'),
+    referer: req.query.referer || '',
+  });
+});
+
+app.post('/event/update/:id', async (req, res) => {
+  const Event = mongoose.model('Event');
+  const event = await Event.findById(req.params.id);
+
+  if (!event) {
+    return res.redirect('404');
+  }
+
+  event.set({
+    title: req.body.title,
+    description: req.body.description,
+    date: req.body.date,
+  });
+  await event.save();
+
+  res.redirect('/' + (req.body.referer ? '?week=' + req.body.referer : ''));
+});
+
 (async () => {
   console.log('Connecting to db');
   await mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });

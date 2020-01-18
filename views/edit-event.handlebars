@@ -1,0 +1,32 @@
+<div class="content">
+  <h1>Edit Event</h1>
+
+  <form method="post" action="/event/update/{{_id}}">
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <div class="control">
+        <input type="text" name="title" id="title" autocomplete="off" class="input" value="{{title}}" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="description" class="label">Description</label>
+      <div class="control">
+        <textarea name="description" id="description" cols="100" rows="2" class="textarea" value="{{description}}"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="date" class="label">Date</label>
+      <div class="control">
+        <input type="date" name="date" id="date" {{#if defaultDate}}value="{{defaultDate}}"{{/if}} class="input" value="{{date}}"/>
+      </div>
+    </div>
+
+    <input type="hidden" name="referer" value="{{referer}}" />
+
+    <div class="control">
+      <button type="submit" class="button is-info">Update</button>
+    </div>
+  </form>
+</div>
