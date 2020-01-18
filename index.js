@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
 const config = require('./config');
 const mongoose = require('mongoose');
@@ -21,6 +22,7 @@ app.use(basicAuth({
     [config.get('username')]: config.get('password'),
   },
 }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', async (req, res) => {
   const Event = mongoose.model('Event');
@@ -33,10 +35,11 @@ app.get('/', async (req, res) => {
     const end = moment(start).endOf('day').toDate();
     console.log('start', start);
     console.log('end', end);
-    const events = await Event.find({ date : { $gt: start, $lt: end }}).lean();
+    const events = await Event.find({ date : { $gte: start, $lte: end }}).lean();
     events.push({ title: 'Today', description: 'Hello this is an event' });
     days.push({
       title: moment(start).format('dddd Do'),
+      date: moment(start).valueOf(),
       events,
     });
   }
@@ -51,6 +54,23 @@ app.get('/', async (req, res) => {
     nextWeekEpoch: moment(weekStart).add(1, 'week').valueOf(),
     showTodayLink: !!req.query.week,
   });
+});
+
+app.get('/event/new', (req, res) => {
+  res.render('new-event');
+});
+
+app.post('/event/new', async (req, res) => {
+  const Event = mongoose.model('Event');
+  const { title, description, date } = req.body;
+
+  const e = new Event({
+    title, description,
+    date: moment(date).valueOf(),
+  });
+  await e.save();
+
+  res.redirect('/');
 });
 
 (async () => {

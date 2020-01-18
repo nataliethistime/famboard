@@ -7,7 +7,9 @@
 <table>
   {{#each days}}
     <tr>
-      <td>{{title}}</td>
+      <td>
+        {{title}} <span style="float: right;"><a href="/event/new?date={{date}}">(+)</a></span>
+      </td>
       <td>
         <ul>
           {{#each events}}
