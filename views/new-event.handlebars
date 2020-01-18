@@ -1,20 +1,30 @@
-<h1>Create Event</h1>
+<div class="content">
+  <h1>Create Event</h1>
 
-<form method="post" action="/event/new">
-  <label for="title">
-    Title: <br /><input type="text" name="title" id="title" autocomplete="off" autofocus="true" />
-  </label>
-  <br />
+  <form method="post" action="/event/new">
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <div class="control">
+        <input type="text" name="title" id="title" autocomplete="off" autofocus="true" class="input" />
+      </div>
+    </div>
 
-  <label for="description">
-    Description: <br /><textarea name="description" id="description" cols="100" rows="5"></textarea>
-  </label>
-  <br />
+    <div class="field">
+      <label for="description" class="label">Description</label>
+      <div class="control">
+        <textarea name="description" id="description" cols="100" rows="5" class="input"></textarea>
+      </div>
+    </div>
 
-  <label for="date">
-    Date: <br /><input type="date" name="date" id="date" {{#if defaultDate}}value="{{defaultDate}}"{{/if}} />
-  </label>
-  <br />
+    <div class="field">
+      <label for="date" class="label">Date</label>
+      <div class="control">
+        <input type="date" name="date" id="date" {{#if defaultDate}}value="{{defaultDate}}"{{/if}} class="input" />
+      </div>
+    </div>
 
-  <input type="submit" value="Send" />
-</form>
+    <div class="control">
+      <button type="submit" class="button is-info">Submit</button>
+    </div>
+  </form>
+</div>
