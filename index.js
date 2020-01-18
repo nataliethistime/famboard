@@ -41,8 +41,6 @@ app.get('/', async (req, res) => {
     });
   }
 
-  console.log(days);
-
   res.render('home', {
     name: config.get('name'),
     days,
