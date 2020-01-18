@@ -33,10 +33,7 @@ app.get('/', async (req, res) => {
   for (let i = 0; i < 7; i++) {
     const start = moment(weekStart).startOf('day').add(i, 'day').toDate();
     const end = moment(start).endOf('day').toDate();
-    console.log('start', start);
-    console.log('end', end);
     const events = await Event.find({ date : { $gte: start, $lte: end }}).lean();
-    events.push({ title: 'Today', description: 'Hello this is an event' });
     days.push({
       title: moment(start).format('dddd Do'),
       date: moment(start).valueOf(),
