@@ -45,6 +45,7 @@ app.get('/', async (req, res) => {
     name: config.get('name'),
     days,
     month: moment(weekStart).format('MMMM'),
+    week: moment(weekStart).valueOf(),
     previousWeekEpoch: moment(weekStart).subtract(1, 'week').valueOf(),
     nextWeekEpoch: moment(weekStart).add(1, 'week').valueOf(),
     showTodayLink: !!req.query.week,
@@ -53,12 +54,13 @@ app.get('/', async (req, res) => {
 
 app.get('/event/new', (req, res) => {
   const defaultDate = moment(parseInt(req.query.date, 10) || Date.now()).format('YYYY-MM-DD');
-  res.render('new-event', { defaultDate });
+  const referer = req.query.referer || '';
+  res.render('new-event', { defaultDate, referer });
 });
 
 app.post('/event/new', async (req, res) => {
   const Event = mongoose.model('Event');
-  const { title, description, date } = req.body;
+  const { title, description, date, referer } = req.body;
 
   const e = new Event({
     title, description,
@@ -66,7 +68,7 @@ app.post('/event/new', async (req, res) => {
   });
   await e.save();
 
-  res.redirect('/');
+  res.redirect('/' + (referer ? '?week=' + referer : ''));
 });
 
 (async () => {
