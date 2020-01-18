@@ -10,7 +10,7 @@ const moment = require('moment');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const db = process.env.MONGO_URI || 'mongodb://localhost:27017/famboard';
+const db = process.env.MONGODB_URI || 'mongodb://localhost:27017/famboard';
 
 app.engine('handlebars', handlebars());
 app.set('view engine', 'handlebars');
