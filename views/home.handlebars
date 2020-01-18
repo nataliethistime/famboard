@@ -1,4 +1,8 @@
-<h1>{{name}}</h1>
+<h1>{{name}} - {{month}}</h1>
+
+<p>
+  <a href="/?week={{previousWeekEpoch}}">Previous</a> | {{#if showTodayLink}}<a href="/">Today</a> |{{/if}} <a href="/?week={{nextWeekEpoch}}">Next</a>
+</p>
 
 <table>
   {{#each days}}
