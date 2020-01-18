@@ -1,1 +1,16 @@
-<h1>Hello there</h1>
+<h1>{{name}}</h1>
+
+<table>
+  {{#each days}}
+    <tr>
+      <td>{{title}}</td>
+      <td>
+        <ul>
+          {{#each events}}
+            <li>{{title}} - {{description}}</li>
+          {{/each}}
+        </ul>
+      </td>
+    </tr>
+  {{/each}}
+</table>

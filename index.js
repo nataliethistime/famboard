@@ -5,6 +5,7 @@ const handlebars = require('express-handlebars');
 const config = require('./config');
 const mongoose = require('mongoose');
 const basicAuth = require('express-basic-auth');
+const moment = require('moment');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,8 +22,31 @@ app.use(basicAuth({
   },
 }));
 
-app.get('/', (req, res) => {
-  res.render('home');
+app.get('/', async (req, res) => {
+  const Event = mongoose.model('Event');
+
+  const days = [];
+  const weekStart = moment().startOf('isoweek');
+
+  for (let i = 0; i < 6; i++) {
+    const start = moment(weekStart).startOf('day').add(i, 'day').toDate();
+    const end = moment(start).endOf('day').toDate();
+    console.log('start', start);
+    console.log('end', end);
+    const events = await Event.find({ date : { $gt: start, $lt: end }}).lean();
+    events.push({ title: 'Today', description: 'Hello this is an event' });
+    days.push({
+      title: moment(start).format('dddd Do'),
+      events,
+    });
+  }
+
+  console.log(days);
+
+  res.render('home', {
+    name: config.get('name'),
+    days,
+  });
 });
 
 (async () => {
