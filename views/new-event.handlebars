@@ -12,21 +12,9 @@
   <br />
 
   <label for="date">
-    Date: <br /><input type="date" name="date" id="date" />
+    Date: <br /><input type="date" name="date" id="date" {{#if defaultDate}}value="{{defaultDate}}"{{/if}} />
   </label>
   <br />
 
   <input type="submit" value="Send" />
 </form>
-
-<script type="text/javascript">
-  window.onload = function() {
-    //
-    // TODO - find a way to handle this better?
-    //
-    const urlParams = new URLSearchParams(window.location.search);
-    const defaultDate = parseInt(urlParams.get('date'));
-    const dateElement = document.getElementById('date');
-    dateElement.valueAsNumber = defaultDate;
-  };
-</script>

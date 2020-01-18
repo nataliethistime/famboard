@@ -54,7 +54,8 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/event/new', (req, res) => {
-  res.render('new-event');
+  const defaultDate = moment(parseInt(req.query.date, 10) || Date.now()).format('YYYY-MM-DD');
+  res.render('new-event', { defaultDate });
 });
 
 app.post('/event/new', async (req, res) => {
