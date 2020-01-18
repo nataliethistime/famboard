@@ -13,7 +13,7 @@
       <td>
         <ul>
           {{#each events}}
-            <li>{{title}} - {{description}}</li>
+            <li>{{title}}{{#if description}} - {{description}}{{/if}}</li>
           {{/each}}
         </ul>
       </td>
