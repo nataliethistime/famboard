@@ -28,7 +28,9 @@ app.get('/', async (req, res) => {
   const Event = mongoose.model('Event');
 
   const days = [];
-  const weekStart = moment(parseInt(req.query.week, 10) || Date.now()).startOf('isoweek');
+  const today = moment().startOf('isoweek');
+  const qWeek = parseInt(req.query.week, 10);
+  const weekStart = qWeek ? moment(qWeek).startOf('isoweek') : today;
 
   for (let i = 0; i < 7; i++) {
     const start = moment(weekStart).startOf('day').add(i, 'day').toDate();
@@ -48,7 +50,7 @@ app.get('/', async (req, res) => {
     week: moment(weekStart).valueOf(),
     previousWeekEpoch: moment(weekStart).subtract(1, 'week').valueOf(),
     nextWeekEpoch: moment(weekStart).add(1, 'week').valueOf(),
-    showTodayLink: !!req.query.week,
+    showTodayLink: !!req.query.week && !today.isSame(qWeek),
   });
 });
 
