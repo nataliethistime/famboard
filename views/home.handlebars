@@ -4,7 +4,7 @@
 
     <button class="button" id="lock-button" style="float: right;">
       <span class="icon">
-        <i id="lock-icon"></i> <!-- Icon class is populated by JS below -->
+        <i class="fas" id="lock-icon"></i> <!-- Icon class is populated by JS below -->
       </span>
     </button>
   </div>
@@ -46,27 +46,39 @@
 
 </content>
 
+<style type="text/css" id="tmp-style">.toggleable-edit-control { display: none; }</style>
 <script type="text/javascript">
-  window.onload = () => {
+  $(() => {
     const states = ['locked', 'unlocked'];
     let state = window.localStorage.getItem('lockedState') || states[0];
 
     const isLocked = () => state === states[0];
-    const toggle = () => update(state = states[Number(isLocked())]);
-    const update = (state) => {
-      ico.className = ['fas', isLocked() ? 'fa-lock' : 'fa-lock-open'].join(' ');
-      const els = document.getElementsByClassName('toggleable-edit-control');
-      for (let i = 0; i < els.length; i-=-1) {
-        els[i].style.display = isLocked() ? 'none' : '';
-      }
+    const toggle = () => update(states[Number(isLocked())]);
+    const icon = () => {
+      $('#lock-icon').toggleClass('fa-lock', isLocked()).toggleClass('fa-lock-open', !isLocked());
+    };
+    const update = (newState) => {
+      state = newState;
       window.localStorage.setItem('lockedState', state);
+      icon();
+      if (isLocked()) {
+        $('.toggleable-edit-control').fadeOut();
+      } else {
+        $('.toggleable-edit-control').fadeIn();
+      }
     };
 
-    const btn = document.getElementById('lock-button');
-    const ico = document.getElementById('lock-icon');
+    $('#lock-button').click(toggle);
 
-    btn.addEventListener('click', toggle);
-
-    update(state);
-  };
+    //
+    // Handle the initial page load manually instead of setting the state and calling 'update'
+    //
+    if (isLocked()) {
+      $('.toggleable-edit-control').hide();
+    } else {
+      $('.toggleable-edit-control').show();
+    }
+    $('#tmp-style').remove();
+    icon();
+  });
 </script>
