@@ -46,22 +46,17 @@
 <script type="text/javascript">
   $(() => {
     const states = ['locked', 'unlocked'];
-    let state = window.localStorage.getItem('lockedState') || states[0];
+    let state = ''
 
     const isLocked = () => state === states[0];
     const toggle = () => update(states[Number(isLocked())]);
-    const icon = () => {
-      $('#lock-icon').toggleClass('fa-lock', isLocked()).toggleClass('fa-lock-open', !isLocked());
-    };
-    const update = (newState) => {
+    const update = (newState, opts = {}) => {
       state = newState;
       window.localStorage.setItem('lockedState', state);
-      icon();
-      if (isLocked()) {
-        $('.toggleable-edit-control').fadeOut();
-      } else {
-        $('.toggleable-edit-control').fadeIn();
-      }
+      $('#lock-icon').toggleClass('fa-lock', isLocked()).toggleClass('fa-lock-open', !isLocked());
+      const fade = typeof opts.fade === 'boolean' ? opts.fade : true;
+      const operation = isLocked() ? (fade ? 'fadeOut' : 'hide') : 'fadeIn';
+      $('.toggleable-edit-control')[operation]();
     };
 
     $('#lock-button').click(toggle);
@@ -69,12 +64,7 @@
     //
     // Handle the initial page load manually instead of setting the state and calling 'update'
     //
-    if (isLocked()) {
-      $('.toggleable-edit-control').hide();
-    } else {
-      $('.toggleable-edit-control').show();
-    }
+    update(window.localStorage.getItem('lockedState') || states[0], { fade: false });
     $('#tmp-style').remove();
-    icon();
   });
 </script>
