@@ -16,26 +16,21 @@
   <table class="table">
     {{#each days}}
       <tr>
-        <td>
+        <td style="width: 20%; padding: 0.5em 0em; vertical-align: middle; text-align: center; font-family: 'VT323', monospace; font-size: 1.5em;">
           {{title}}
         </td>
-        <td>
-          <ul>
-            {{#each events}}
-              <li>
-                {{title}}
-                {{#if description}} - {{description}}{{/if}}
-                <a href="/event/edit/{{_id}}?referer={{../../week}}" class="toggleable-edit-control">
-                  (edit)
-                </a>
-                <a href="/event/delete/{{_id}}?referer={{../../week}}" class="toggleable-edit-control">
-                  (delete)
-                </a>
-              </li>
-            {{/each}}
-          </ul>
+        <td style="width: 60%; padding: 0.5em 0em; vertical-align: middle;">
+          {{#each events}}
+            <div>
+              {{title}}
+              {{#if description}} - {{description}}{{/if}}
+              <a href="/event/edit/{{_id}}?referer={{../../week}}" class="toggleable-edit-control">
+                (edit)
+              </a>
+            </div>
+          {{/each}}
         </td>
-        <td>
+        <td style="width: 10%; padding: 0.5em 0em; vertical-align: middle;">
           <a href="/event/new?date={{date}}&referer={{../week}}" class="toggleable-edit-control">
             (+)
           </a>

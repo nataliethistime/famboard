@@ -37,7 +37,7 @@ app.get('/', async (req, res) => {
     const end = moment(start).endOf('day').toDate();
     const events = await Event.find({ date : { $gte: start, $lte: end }}).lean();
     days.push({
-      title: moment(start).format('dddd Do'),
+      title: moment(start).format('ddd DD').toUpperCase(),
       date: moment(start).valueOf(),
       events,
     });
