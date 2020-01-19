@@ -10,6 +10,18 @@
     </div>
 
     <div class="field">
+      <label for="tag" class="label">Tag</label>
+      <div class="select">
+        <select name="tag" value="{{tag}}" id="tag">
+          <option value=""></option>
+          <option value="day">Day</option>
+          <option value="night">Night</option>
+          <option value="allday">All Day</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
       <label for="description" class="label">Description</label>
       <div class="control">
         <textarea name="description" id="description" cols="100" rows="2" class="textarea"></textarea>
@@ -19,7 +31,7 @@
     <div class="field">
       <label for="date" class="label">Date</label>
       <div class="control">
-        <input type="date" name="date" id="date" {{#if defaultDate}}value="{{defaultDate}}"{{/if}} class="input" />
+        <input type="date" name="date" id="date" value="{{date}}" class="input" />
       </div>
     </div>
 

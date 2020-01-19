@@ -24,6 +24,7 @@
             <div>
               {{title}}
               {{#if description}} - {{description}}{{/if}}
+              {{#if tag}}<span class="tag is-light is-{{tagDisplayColour}}">{{tagDisplayName}}</span>{{/if}}
               <a href="/event/edit/{{_id}}?referer={{../../week}}" class="toggleable-edit-control">
                 (edit)
               </a>

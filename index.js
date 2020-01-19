@@ -8,6 +8,7 @@ const config = require('./config');
 const mongoose = require('mongoose');
 const basicAuth = require('express-basic-auth');
 const moment = require('moment');
+const _ = require('lodash');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -43,11 +44,11 @@ app.get('/', async (req, res) => {
   for (let i = 0; i < 7; i++) {
     const start = moment(weekStart).startOf('day').add(i, 'day').toDate();
     const end = moment(start).endOf('day').toDate();
-    const events = await Event.find({ date : { $gte: start, $lte: end }}).lean();
+    const events = await Event.find({ date : { $gte: start, $lte: end }});
     days.push({
       title: moment(start).format('ddd DD').toUpperCase(),
       date: moment(start).valueOf(),
-      events,
+      events: _.map(events, (e) => e.toObject({ virtuals: true })),
     });
   }
 
@@ -63,17 +64,17 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/event/new', (req, res) => {
-  const defaultDate = moment(parseInt(req.query.date, 10) || Date.now()).format('YYYY-MM-DD');
+  const date = moment(parseInt(req.query.date, 10) || Date.now()).format('YYYY-MM-DD');
   const referer = req.query.referer || '';
-  res.render('new-event', { defaultDate, referer });
+  res.render('new-event', { date, referer });
 });
 
 app.post('/event/new', async (req, res) => {
   const Event = mongoose.model('Event');
-  const { title, description, date, referer } = req.body;
+  const { title, description, tag, date, referer } = req.body;
 
   const e = new Event({
-    title, description,
+    title, description, tag,
     date: moment(date).valueOf(),
   });
   await e.save();
@@ -93,6 +94,7 @@ app.get('/event/edit/:id', async (req, res) => {
     _id: event._id,
     title: event.title,
     description: event.description,
+    tag: event.tag,
     date: moment(event.date).format('YYYY-MM-DD'),
     referer: req.query.referer || '',
   });
@@ -110,6 +112,7 @@ app.post('/event/update/:id', async (req, res) => {
     title: req.body.title,
     description: req.body.description,
     date: req.body.date,
+    tag: req.body.tag,
   });
   await event.save();
 
