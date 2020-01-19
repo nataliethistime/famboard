@@ -61,9 +61,6 @@
 
     $('#lock-button').click(toggle);
 
-    //
-    // Handle the initial page load manually instead of setting the state and calling 'update'
-    //
     update(window.localStorage.getItem('lockedState') || states[0], { fade: false });
     $('#tmp-style').remove();
   });
