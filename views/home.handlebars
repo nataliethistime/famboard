@@ -14,7 +14,12 @@
         <td>
           <ul>
             {{#each events}}
-              <li>{{title}}{{#if description}} - {{description}}{{/if}} <a href="/event/edit/{{_id}}?referer={{../../week}}">(edit)</a></li>
+              <li>
+                {{title}}
+                {{#if description}} - {{description}}{{/if}}
+                <a href="/event/edit/{{_id}}?referer={{../../week}}">(edit)</a>
+                <a href="/event/delete/{{_id}}?referer={{../../week}}">(delete)</a>
+              </li>
             {{/each}}
           </ul>
         </td>
