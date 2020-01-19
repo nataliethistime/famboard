@@ -4,7 +4,7 @@
 
     <button class="button" id="lock-button" style="float: right;">
       <span class="icon">
-        <i class="fas fa-lock" id="lock-icon"></i>
+        <i id="lock-icon"></i> <!-- Icon class is populated by JS below -->
       </span>
     </button>
   </div>
@@ -48,25 +48,25 @@
 
 <script type="text/javascript">
   window.onload = () => {
-    let state = 'locked';
-
     const states = ['locked', 'unlocked'];
+    let state = window.localStorage.getItem('lockedState') || states[0];
+
     const isLocked = () => state === states[0];
+    const toggle = () => update(state = states[Number(isLocked())]);
     const update = (state) => {
       ico.className = ['fas', isLocked() ? 'fa-lock' : 'fa-lock-open'].join(' ');
       const els = document.getElementsByClassName('toggleable-edit-control');
       for (let i = 0; i < els.length; i-=-1) {
         els[i].style.display = isLocked() ? 'none' : '';
       }
+      window.localStorage.setItem('lockedState', state);
     };
 
     const btn = document.getElementById('lock-button');
     const ico = document.getElementById('lock-icon');
 
-    btn.addEventListener('click', () => {
-      update(state = states[Number(isLocked())]);
-    });
+    btn.addEventListener('click', toggle);
 
-    update('locked');
+    update(state);
   };
 </script>
