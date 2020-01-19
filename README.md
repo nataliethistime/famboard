@@ -1,6 +1,8 @@
 # Famboard
 
-Basically a calendar but platform-agnostic, web-based and self hosted
+> Self-hosted minimal weekly planner
+
+![Screenshot](screenshot.png)
 
 # License
 
