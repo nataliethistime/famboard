@@ -1,5 +1,13 @@
 <div class="content">
-  <h1>{{name}} - {{month}}</h1>
+  <div class="is-clearfix">
+    <h1 style="float: left;">{{name}} - {{month}}</h1>
+
+    <button class="button" id="lock-button" style="float: right;">
+      <span class="icon">
+        <i class="fas fa-lock" id="lock-icon"></i>
+      </span>
+    </button>
+  </div>
 
   <p>
     <a href="/?week={{previousWeekEpoch}}">Previous</a> | {{#if showTodayLink}}<a href="/">Today</a> |{{/if}} <a href="/?week={{nextWeekEpoch}}">Next</a>
@@ -17,17 +25,48 @@
               <li>
                 {{title}}
                 {{#if description}} - {{description}}{{/if}}
-                <a href="/event/edit/{{_id}}?referer={{../../week}}">(edit)</a>
-                <a href="/event/delete/{{_id}}?referer={{../../week}}">(delete)</a>
+                <a href="/event/edit/{{_id}}?referer={{../../week}}" class="toggleable-edit-control">
+                  (edit)
+                </a>
+                <a href="/event/delete/{{_id}}?referer={{../../week}}" class="toggleable-edit-control">
+                  (delete)
+                </a>
               </li>
             {{/each}}
           </ul>
         </td>
         <td>
-          <a href="/event/new?date={{date}}&referer={{../week}}">(+)</a>
+          <a href="/event/new?date={{date}}&referer={{../week}}" class="toggleable-edit-control">
+            (+)
+          </a>
         </td>
       </tr>
     {{/each}}
   </table>
 
 </content>
+
+<script type="text/javascript">
+  window.onload = () => {
+    let state = 'locked';
+
+    const states = ['locked', 'unlocked'];
+    const isLocked = () => state === states[0];
+    const update = (state) => {
+      ico.className = ['fas', isLocked() ? 'fa-lock' : 'fa-lock-open'].join(' ');
+      const els = document.getElementsByClassName('toggleable-edit-control');
+      for (let i = 0; i < els.length; i-=-1) {
+        els[i].style.display = isLocked() ? 'none' : '';
+      }
+    };
+
+    const btn = document.getElementById('lock-button');
+    const ico = document.getElementById('lock-icon');
+
+    btn.addEventListener('click', () => {
+      update(state = states[Number(isLocked())]);
+    });
+
+    update('locked');
+  };
+</script>
