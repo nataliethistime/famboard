@@ -3,6 +3,8 @@
 const { Schema } = require('mongoose');
 const _ = require('lodash');
 
+const { tags, defaultTagColour } = require('../constants');
+
 const EventSchema = new Schema({
   title: String,
   description: String,
@@ -11,20 +13,11 @@ const EventSchema = new Schema({
 });
 
 EventSchema.virtual('tagDisplayName').get(function() {
-  return this.tag === 'allday' ? 'All Day' : _.capitalize(this.tag);
+  return tags[this.tag] ? tags[this.tag].displayName : _.capitalize(this.tag);
 });
 
 EventSchema.virtual('tagDisplayColour').get(function() {
-  switch (this.tag) {
-    case 'allday':
-      return 'light';
-    case 'night':
-      return 'danger';
-    case 'day':
-      return 'primary';
-    default:
-      return 'info';
-  }
+  return tags[this.tag] ? tags[this.tag].colour : defaultTagColour;
 });
 
 module.exports = EventSchema;

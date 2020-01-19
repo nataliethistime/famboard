@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const basicAuth = require('express-basic-auth');
 const moment = require('moment');
 const _ = require('lodash');
+const { tags } = require('./constants');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -66,7 +67,7 @@ app.get('/', async (req, res) => {
 app.get('/event/new', (req, res) => {
   const date = moment(parseInt(req.query.date, 10) || Date.now()).format('YYYY-MM-DD');
   const referer = req.query.referer || '';
-  res.render('new-event', { date, referer });
+  res.render('new-event', { date, referer, tags });
 });
 
 app.post('/event/new', async (req, res) => {
@@ -97,6 +98,7 @@ app.get('/event/edit/:id', async (req, res) => {
     tag: event.tag,
     date: moment(event.date).format('YYYY-MM-DD'),
     referer: req.query.referer || '',
+    tags,
   });
 });
 

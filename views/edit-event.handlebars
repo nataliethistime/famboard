@@ -14,9 +14,9 @@
       <div class="select">
         <select name="tag" value="{{tag}}" id="tag">
           <option value=""></option>
-          <option value="day" {{#eq tag "day"}}selected{{/eq}}>Day</option>
-          <option value="night" {{#eq tag "night"}}selected{{/eq}}>Night</option>
-          <option value="allday" {{#eq tag "allday"}}selected{{/eq}}>All Day</option>
+          {{#each tags}}
+            <option value="{{@key}}" {{#eq ../tag @key}}selected{{/eq}}>{{displayName}}</option>
+          {{/each}}
         </select>
       </div>
     </div>
