@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
+const handlebarsHelpers = require('handlebars-helpers');
 const config = require('./config');
 const mongoose = require('mongoose');
 const basicAuth = require('express-basic-auth');
@@ -12,7 +13,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 const db = process.env.MONGODB_URI || 'mongodb://localhost:27017/famboard';
 
-app.engine('handlebars', handlebars());
+//
+// Delete the `date` helper so that it doesn't get confused with template variables named `date`.
+// See here for more: https://github.com/helpers/handlebars-helpers/issues/359
+//
+let helpers = handlebarsHelpers();
+delete helpers.date;
+
+app.engine('handlebars', handlebars({ helpers }));
 app.set('view engine', 'handlebars');
 
 app.use(basicAuth({
