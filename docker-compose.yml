@@ -1,0 +1,23 @@
+version: '3'
+
+volumes:
+  node_modules:
+
+services:
+  db:
+    image: mongo:4
+    ports:
+      - '27017:27017'
+
+  web:
+    build: .
+    command: node index.js
+    volumes:
+      - '.:/usr/src/app'
+      - 'node_modules:/usr/src/app/node_modules'
+    expose:
+      - 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db

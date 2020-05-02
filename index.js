@@ -13,7 +13,7 @@ const { tags } = require('./constants');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const db = process.env.MONGODB_URI || 'mongodb://localhost:27017/famboard';
+const db = process.env.MONGODB_URI || 'mongodb://db:27017/famboard';
 
 //
 // Delete the `date` helper so that it doesn't get confused with template variables named `date`.
